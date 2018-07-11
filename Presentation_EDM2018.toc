@@ -1,0 +1,14 @@
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Motivation}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Notations}{4}{0}{1}
+\beamer@sectionintoc {2}{Identifiability}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Motif for Identifiability}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{Definition}{6}{0}{2}
+\beamer@subsectionintoc {2}{3}{Example}{7}{0}{2}
+\beamer@sectionintoc {3}{Experiments}{8}{0}{3}
+\beamer@subsectionintoc {3}{1}{Basic Settings}{9}{0}{3}
+\beamer@subsectionintoc {3}{2}{Model}{10}{0}{3}
+\beamer@subsectionintoc {3}{3}{Experiment 1}{11}{0}{3}
+\beamer@subsectionintoc {3}{4}{Experiment 2}{14}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{18}{0}{4}
+\beamer@sectionintoc {5}{Reference}{19}{0}{5}

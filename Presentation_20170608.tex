@@ -1,0 +1,596 @@
+%% Peng Xu's PhD proposal presentation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% document class
+%\documentclass{beamer}
+%\documentclass[aspectratio=169]{beamer}
+\documentclass[handout]{beamer}
+
+%% packages
+\input{settings/packages}
+
+%% page settings
+\input{settings/page}
+
+%% new commands
+\input{settings/macros}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author[Peng Xu]{\textbf {Peng Xu\\ \footnotesize Supervised by Michel Desmarais}}
+\title[Title]{Progress on EDM}
+\titlegraphic{\includegraphics[width=0.35\textwidth]{figures/polytechnique}}
+\institute{Département de Génie Informatique et Génie Logiciel}
+\date{Jun 08, 2017}
+\frame{\titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Table of contents}
+\begin{multicols}{2}
+  \tableofcontents
+\end{multicols}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+\begin{frame}{Table of contents}
+\begin{multicols}{2}
+  \tableofcontents[currentsection,hidesubsections]
+\end{multicols}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Research Field}
+\begin{frame}{Research Field}
+\begin{itemize}
+	\item
+		EDM(Educational Data Mining) serves for
+		\begin{itemize}
+			\item
+				Improve Student Model
+			\item
+				Improve Domain Model
+			\item
+				Study Pedagogical Support
+			\item
+				Refine Education Theory
+		\end{itemize}
+	\item
+		CDM(Coginitive Diagnostic Models)
+\end{itemize}
+\end{frame}
+
+\subsection{Notations}
+\begin{frame}{Notations}
+\begin{itemize}
+	\item
+		Response matrix $R$
+		\resizebox{.8\textwidth}{!}{%
+		\kbordermatrix{
+	& i_1 &i_2 & i_3 &i_4 & i_5 &i_6 & i_7 &i_8 &i_9 \\
+r_1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+r_2 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & 0\\
+r_3 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+r_4 & 0 & 1 & 0 & 0 & 1 & 1 & 0 & 1 & 1\\
+}%
+}
+\begin{multicols}{2}
+  \item
+		Q-matrix $Q$
+		\resizebox{.4\textwidth}{!}{%
+		\kbordermatrix{
+	& s_1 & s_2 & s_3 \\
+i_1 & 1 & 1 & 0\\
+i_2 & 0 & 1 & 1\\
+i_3 & 1 & 0 & 1\\
+i_4 & 1 & 0 & 0\\
+i_5 & 0 & 0 & 1\\
+i_6 & 0 & 1 & 0\\
+i_7 & 1 & 1 & 1\\
+i_8 & 0 & 1 & 1\\
+i_9 & 0 & 1 & 1\\
+}%
+}
+  \item
+  		Profile matrix $A$
+  		\resizebox{.4\textwidth}{!}{%
+  \kbordermatrix{
+  & s_1 & s_2 & s_3 \\
+r_1 & 0 & 1 & 0\\
+r_2 & 1 & 1 & 0\\
+r_3 & 1 & 1 & 1\\
+r_4 & 0 & 1 & 1\\
+}%
+}
+\end{multicols}	
+\end{itemize}
+\end{frame}
+
+\subsection{Models}
+\begin{frame}{Models}
+\begin{itemize}
+	\item
+		Names of Models
+		\begin{itemize}
+			\item
+			Diagnostic Classification Models(DCM)
+			\item
+			Cognitive Diagnosis Models(CDM)
+			\item
+			Other names
+		\end{itemize}	
+	\item
+		Statistical View
+
+\resizebox{.9\textwidth}{!}{%		
+\begin{tabular}{|c|c|c|}
+\hline
+ \backslashbox{Latent Variables}{Manifest Variables} & Continuous & Categorical  \\ \hline
+ Continuous & Factor Analysis & Item Response Theory \\ \hline
+ Categorical & Latent Profile Analysis & Latent Class Analysis \\ \hline
+\end{tabular}%
+}
+	\item
+		Taxonomy of models
+		\begin{itemize}
+			\item
+			Dichotomous versus Polytomous
+			\item
+			Compensatory versus Noncompensatory			
+		\end{itemize}
+	\item
+		Determinstic Input Noisy And(DINA) model
+	\item
+		Determinstic Input Noisy OR(DINO) model
+\end{itemize}
+\end{frame}
+
+\section[LVM]{Latent Variable Models}
+\begin{frame}{Table of contents}
+\begin{multicols}{2}
+  \tableofcontents[currentsection,hidesubsections]
+\end{multicols}
+\end{frame}
+
+\subsection[FA]{Factor Analysis}
+\begin{frame}{Factor Analysis}
+\begin{itemize}
+\item{Originated from Psychometrics}
+\item{Model:
+$$p(x_i|z_i,\theta)=\mathscr{N}(Wz_i+\mu,\Psi)$$}
+\begin{itemize}
+\item{$X$ is the $N \times D$ data matrix, $x_i$ is the $i-th$ row}
+\item{$z_i$ is a vector of $L$ latent variables}
+\item{$W$ is the $D \times L$ factor matrix}
+\item{$\Psi$ is a $D \times D$ covariance matrix}
+\end{itemize}
+\item{Algorithm: MLE}
+\end{itemize}
+\end{frame}
+
+\subsection[PCA]{Principle Component Analysis}
+\begin{frame}{Principle Component Analysis}
+\begin{itemize}
+\item{Classical view}
+$$min ||X-WZ^T||_F^2$$
+Optimal low-dimensional encoding 
+\item{Probabilistic view}
+$$p(x_i|z_i,\theta)=\mathscr{N}(Wz_i+\mu,\Psi)$$
+\begin{itemize}
+\item{$W$ is orthonormal}
+\item{$\Psi = \sigma^2I, \sigma^2\rightarrow 0$}
+\end{itemize}
+\item{Algorithm: SVD}
+\end{itemize}
+\end{frame}
+
+\subsection[IRT]{Item Response Theory}
+\begin{frame}{Item Response Theory}
+\begin{itemize}
+\item{Origination}
+\item{Probabilistic view}
+\begin{itemize}
+\item{Hidden Variables: continuous}
+\item{Observed Variables: binary}
+\item{Logistic Regression with hidden variables}
+\end{itemize}
+\item{Model}
+$$ p(x|z,\omega) \sim Ber(x|sigm(\omega^Tz)) $$
+\item{Algorithm: mixed EM and MCMC}
+\end{itemize}
+\end{frame}
+
+\subsection[MM]{Mixture Model}
+\begin{frame}{Mixture Model}
+\begin{itemize}
+\item{Graph Model}
+\includegraphics[scale=0.3]{figures/MM.png}
+\item{Formulas}
+$$p(x_i|\theta)=\sum\limits_{k=1}^K\pi_kp_k(x_i|\theta)$$
+\item{Algorithm: EM, MCMC}
+\end{itemize}
+\end{frame}
+
+\subsection[RBM]{Restricted Boltzmann Machine}
+\begin{frame}{Restricted Boltzmann Machine}
+\begin{itemize}
+\item{Graph Model}
+\includegraphics[scale=0.3]{figures/RBM.png}
+\item{Joint Distribution}
+$$ p(v,h|\theta) = \frac{1}{Z(\theta)}exp(-E(v,h;\theta)$$
+$$ E(v,h;\theta) = -\sum\limits_{r=1}^R\sum\limits_{k=1}^Kv_rh_kW_{rk}-\sum\limits_{r=1}^Rv_rb_r-\sum\limits_{k=1}^Kh_kc_k $$
+$$ = - (v^TWh+v^T+h^Tc)$$
+$$ Z(\theta)=\sum\limits_{v}\sum\limits_{h}exp(-E(v,h;\theta))$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Restricted Boltzmann Machine cont.}
+\begin{itemize}
+\item{Conditional Distribution}
+$$ p(h|v,\theta)=\prod\limits_{k}Ber(h_k|sigm(w_{:,k}^Tv))$$
+$$ p(v|h,\theta)=\prod\limits_{r}Ber(v_r|sigm(w_{r,:}^Th))$$
+\item{Algorithm: Contrastive Divergence}
+\end{itemize}
+\end{frame}
+
+\subsection[Results]{Results}
+\begin{frame}{Datasets}
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Name & \# Observations & \# Items \\
+\hline
+sim.dina & 400 & 9 \\
+\hline
+ecpe & 2922 & 28 \\
+\hline
+fraction1 & 536 & 15 \\
+\hline
+fraction2 & 536 & 11 \\
+\hline
+subtraction & 536 & 20 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Datasets}\label{tab:datasets}
+\end{table}
+\end{frame}
+
+\begin{frame}{Results on RMSE}
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+Datasets & Base & FA & PCA & IRT & MM & RBM\\
+\hline
+sim.dina & 0.46 & 0.51 & 0.45 & 0.44 & 0.43 & 0.41\\
+\hline
+fraction1 & 0.37 & 0.45 & 0.35 & 0.35 & 0.33 & 0.32\\
+\hline
+fraction2 & 0.38 & 0.46 & 0.37 & 0.36 & 0.34 & 0.33\\
+\hline
+subtraction & 0.37 & 0.44 & 0.34 & 0.35 & 0.33 & 0.32\\
+\hline
+ecpe & 0.42 & 0.46 & 0.42 & - & 0.41 & 0.39\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Results of RMSE}\label{tab:results}
+\end{table}
+All results are based on 10-folds cross validation
+\end{frame}
+
+\begin{frame}{Results on Model Selection}
+\begin{table}[!h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Datasets & FA & PCA & IRT & MM & RBM\\
+\hline
+sim.dina & 5 & 1 & 1 & 5 & 100\\
+\hline
+fraction1 & 1 & 3 & 3 & 6 & 100\\
+\hline
+fraction2 & 3 & 4 & 1 & 6 & 100\\
+\hline
+subtraction & 1 & 5 & 1 & 8 & 100\\
+\hline
+ecpe & 1 & 1 & - & 4 & 100\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Results of Model selection by cross validation. For FA, PCA, IRT and RBM, the number denotes the latent dimensions. For MM, it is the number of classes represented by the single latent variable.}\label{tab:Model}
+\end{table}
+\end{frame}
+
+\begin{frame}{Figures on Model Selection - FA}
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.5]{figures/Model_Selection_for_FA_on_subtraction_Dataset.png}
+	\label{fig:FA}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Figures on Model Selection - PCA}
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.5]{figures/Model_Selection_for_PCA_on_subtraction_Dataset.png}
+	\label{fig:PCA}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Figures on Model Selection - IRT}
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.5]{figures/Model_Selection_for_IRT_on_subtraction_Dataset.png}
+	\label{fig:IRT}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Figures on Model Selection - MM}
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.5]{figures/Model_Selection_for_MM_on_subtraction_Dataset.png}
+	\label{fig:MM}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Figures on Model Selection - RBM}
+\begin{figure}[H]
+\centering
+	\includegraphics[scale=0.5]{figures/Model_Selection_for_RBM_on_subtraction_Dataset.png}
+	\label{fig:RBM}
+\end{figure}
+\end{frame}
+
+
+\section{Bayesian Nonparametrics}
+\begin{frame}{Table of contents}
+\begin{multicols}{2}
+  \tableofcontents[currentsection,hidesubsections]
+\end{multicols}
+\end{frame}
+
+\subsection{Statistical Methodology}
+\begin{frame}{Statistical Methodology}
+\begin{itemize}
+\item{Two "factors"}
+    \begin{itemize}
+    \item{parametric-nonparametric}
+    \item{frequentist-Bayesian}
+    \end{itemize}
+\item{Frequentist parametrics}
+\item{Bayesian parametrics}
+\item{Frequentist nonparametrics}
+\item{Bayesian nonparametrics}
+\end{itemize}
+\end{frame}
+
+\subsection{Cognitive Tasks}
+\begin{frame}{Three Tasks}
+\begin{itemize}
+\item{Cognitive tasks}
+	\begin{itemize}
+	\item{Learning words and categories}
+	\item{Inferring relevant features of objects}
+	\item{Identifying functional relationships}
+	\end{itemize}
+\item{Latent structures}
+	\begin{itemize}
+	\item{Clusters}
+	\item{Features}
+	\item{Functions}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\subsection[CRP]{Chinese Restaurant Process}
+\begin{frame}{Chinese Restaurant Process}
+\begin{itemize}
+\item{Prior for clusters}
+\item{Demo}
+
+See Wikipedia
+\item{Formula}
+
+\includegraphics[scale=0.5]{figures/CRPformula.png}
+\item{Foundation: Dirichlet Process}
+\item{Related Research: CRP with HMM (NIPS 2014)}
+\end{itemize}
+\end{frame}
+
+\subsection[IBP]{Indian Buffet Process}
+\begin{frame}{Indian Buffet Process}
+\begin{itemize}
+\item{Prior for features}
+\item{Demo}
+
+\includegraphics[scale=0.5]{figures/IBP.png}
+\item{Formula}
+\item{Foundation: Beta Process}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{IBP related research}
+\includegraphics[scale=0.3]{figures/IBPeg.png}
+\end{frame}
+
+\subsection[GP]{Gaussian Process}
+\begin{frame}{Gaussian Process}
+\begin{itemize}
+\item{Prior for functions}
+
+\includegraphics[scale=0.5]{figures/GP.png}
+\item{Demo}
+\item{Formula}
+\end{itemize}
+\end{frame}
+
+\subsection[Results]{Results}
+\begin{frame}{Results on logLikelihood}
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/logLikelihood_by_Gibbs_Sampling.png}
+
+\includegraphics[scale=0.3]{figures/logLikelihood_by_Collapsed_Gibbs_Sampling.png}
+
+\includegraphics[scale=0.3]{figures/logLikelihood_by_EM.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on RMSE}
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/RMSE_by_Gibbs_Sampling.png}
+
+\includegraphics[scale=0.3]{figures/RMSE_by_Collapsed_Gibbs_Sampling.png}
+
+\includegraphics[scale=0.3]{figures/RMSE_by_EM.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on CRP based MM}
+Starting from 1 cluster, Alpha=0.5
+
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/DP_LOG_K1_ALPHA05.png}
+
+\includegraphics[scale=0.3]{figures/DP_NUM_K1_ALPHA05.png}
+
+\includegraphics[scale=0.3]{figures/DP_RMSE_K1_ALPHA05.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on CRP based MM}
+Starting from 1 cluster, Alpha=1
+
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/DP_LOG_K1_ALPHA1.png}
+
+\includegraphics[scale=0.3]{figures/DP_NUM_K1_ALPHA1.png}
+
+\includegraphics[scale=0.3]{figures/DP_RMSE_K1_ALPHA1.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on CRP based MM}
+Starting from 1 cluster, Alpha=10
+
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/DP_LOG_K1_ALPHA10.png}
+
+\includegraphics[scale=0.3]{figures/DP_NUM_K1_ALPHA10.png}
+
+\includegraphics[scale=0.3]{figures/DP_RMSE_K1_ALPHA10.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on CRP based MM}
+Starting from 400 cluster, Alpha=0.5
+
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/DP_LOG_K400_ALPHA05.png}
+
+\includegraphics[scale=0.3]{figures/DP_NUM_K400_ALPHA05.png}
+
+\includegraphics[scale=0.3]{figures/DP_RMSE_K400_ALPHA05.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on CRP based MM}
+Starting from 400 cluster, Alpha=1
+
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/DP_LOG_K400_ALPHA1.png}
+
+\includegraphics[scale=0.3]{figures/DP_NUM_K400_ALPHA1.png}
+
+\includegraphics[scale=0.3]{figures/DP_RMSE_K400_ALPHA1.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results on CRP based MM}
+Starting from 400 cluster, Alpha=10
+
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/DP_LOG_K400_ALPHA10.png}
+
+\includegraphics[scale=0.3]{figures/DP_NUM_K400_ALPHA10.png}
+
+\includegraphics[scale=0.3]{figures/DP_RMSE_K400_ALPHA10.png}
+\end{figure}
+\end{frame}
+
+\section[Framework]{AND/OR Framework}
+\begin{frame}{Table of contents}
+\begin{multicols}{2}
+  \tableofcontents[currentsection,hidesubsections]
+\end{multicols}
+\end{frame}
+
+\subsection[OR]{OR Machine}
+\begin{frame}{OR Machine}
+\begin{itemize}
+\item{Graph Model}
+
+\includegraphics[scale=0.9]{figures/directed_graph.pdf}
+\item{Likelihood}
+
+\includegraphics[scale=0.3]{figures/OrMachineLikelihood.png}
+\item{Priors of $U$ and $Z$: Bernoulli Distribution}
+\item{Algorithm: EM mixed with Metropolised Gibbs Sampling}
+
+\end{itemize}
+\end{frame}
+
+\subsection[AND]{AND Machine}
+\begin{frame}{AND Machine}
+\begin{itemize}
+\item{Graph Model}
+
+\includegraphics[scale=0.9]{figures/directed_graph.pdf}
+\item{Likelihood}
+\[
+    p(x_{nd}|u,z,\lambda) = 
+    \begin{cases}
+        \sigma(\lambda), & \text{if } x=\prod\limits_{k=1}^{K}z_{nk}^{u_{kd}}\\
+        1-\sigma(\lambda), & \text{if } x\neq\prod\limits_{k=1}^{K}z_{nk}^{u_{kd}}
+    \end{cases}
+\]
+\end{itemize}
+\end{frame}
+
+%%if x=\prod\limits_{k}z_{nk}^u_{kd} 
+\subsection[Results]{Results}
+\begin{frame}{Results of OrMachine}
+\begin{figure}[H]
+\includegraphics[scale=0.3]{figures/OrMachineFlip.png}
+
+\includegraphics[scale=0.3]{figures/OrMachineReal.png}
+
+\includegraphics[scale=0.2]{figures/OrMachineAuthor.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Results of AndMachine}
+\begin{figure}[H]
+\includegraphics[scale=0.4]{figures/AndMachineFlip.png}
+
+\includegraphics[scale=0.4]{figures/AndMachineReal.png}
+
+\end{figure}
+\end{frame}
+
+\end{document}
